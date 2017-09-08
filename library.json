@@ -1,0 +1,17 @@
+{
+  "name": "ArduinoJsonRpc",
+  "keywords": "json, rest, http, web, rpc",
+  "description": "An Arduino library to communicate by using json commands",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/spaceshipyard/arduino-json-rpc.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "atmelavr",
+  "dependencies":
+  [
+    { "name": "ArduinoJSON",
+      "version": "https://github.com/bblanchon/ArduinoJson.git" }
+  ]
+}
