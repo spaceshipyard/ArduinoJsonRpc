@@ -8,7 +8,7 @@
 #define MESSENGERBUFFERSIZE 256
 #define JSON_PACKAGE_TERMINATOR '\n'
 
-enum CommandResult { processed, unknown, notJson };
+enum CommandResult { processed, unknownCMD, notJson };
 
 typedef CommandResult (CommandHandlerFunction) (const JsonObject& inParams, JsonObject& outParams);
 

@@ -5,7 +5,17 @@ Arduino json communication library, for remote procedure calls, it is based on h
 
 sample of output:
 
-```{ "cmd": "acknowledge", "params": { "sum": 3 } , "replyOn": "reqId1" , "replyStatus": 0, "replyDelay": 1 }``` `\n`
+```{ "cmd": "acknowledge", "params": { "sum": 3 } , "replyOn": "reqId1" , "replyStatus": "processed", "replyDelay": 1 }``` `\n`
+
+
+`replyStatus` might have following values
+```
+#define COMMAND_RESULT_PROCESSED "processed"
+#define COMMAND_RESULT_UNKNOWN_CMD "unknownCMD"
+#define COMMAND_RESULT_NOT_JSON "notJson"
+#define COMMAND_RESULT_UNKNOWN "unknown"
+```
+
 
 ```
 //#include <Arduino.h> //it is required in cause of compilation under platform.io

@@ -1,5 +1,10 @@
 #include <ArduinoJsonRpc.h>
 
+#define COMMAND_RESULT_PROCESSED "processed"
+#define COMMAND_RESULT_UNKNOWN_CMD "unknownCMD"
+#define COMMAND_RESULT_NOT_JSON "notJson"
+#define COMMAND_RESULT_UNKNOWN "unknown"
+
 CommandProcessor commands[MAXCALLBACKS];
 
 
@@ -13,13 +18,23 @@ void attachCommandProcessor(const char* name, const CommandHandlerFunction *hand
 }
 
 CommandResult executeCommand(const char* name, const JsonObject& inParams, JsonObject& outParams) {
-    CommandResult result = unknown;
+    CommandResult result = unknownCMD;
     for(int i=0; i < callBackCount; i++) {
         if(strcmp(name, commands[i].name) == 0) {
             return commands[i].handler(inParams, outParams);
         }
     }
     return result;
+}
+
+const char* commandResultToString(CommandResult cr) {
+    switch (cr) {
+        case processed: return COMMAND_RESULT_PROCESSED;
+        case notJson: return COMMAND_RESULT_NOT_JSON;
+        case unknownCMD: return COMMAND_RESULT_UNKNOWN_CMD;
+        default:
+            return COMMAND_RESULT_UNKNOWN;
+    }
 }
 
 void handleJsonPackage(const char* json, const Print& print) {
@@ -46,7 +61,7 @@ void handleJsonPackage(const char* json, const Print& print) {
         result = executeCommand(cmd, params, resParams);
     }
     unsigned long finishTime = millis();
-    resultObj["replyStatus"] = (int)result;
+    resultObj["replyStatus"] = commandResultToString(result);
     resultObj["replyDelay"] = finishTime - startTime;
 
     resultObj.printTo(print);
