@@ -22,6 +22,6 @@ void handleJsonPackage(const char* json, const Print& print);
 void attachCommandProcessor(const char* name, const CommandHandlerFunction *handler);
 CommandResult executeCommand(const char* name, const JsonObject& inParams, JsonObject& outParams);
 
-void tryToReadNextCmd();
+void tryToReadNextCmd(const Stream& stream);
 
 #endif

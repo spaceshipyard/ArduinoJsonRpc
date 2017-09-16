@@ -1,4 +1,4 @@
-#include <json-rpc.h>
+#include <ArduinoJsonRpc.h>
 
 CommandProcessor commands[MAXCALLBACKS];
 
@@ -52,10 +52,10 @@ void handleJsonPackage(const char* json, const Print& print) {
     resultObj.printTo(print);
 }
 
-void tryToReadNextCmd() {
-    while (Serial.available()) {
+void tryToReadNextCmd(const Stream& stream) {
+    while (stream.available()) {
         // get the new byte:
-        char inChar = (char)Serial.read();
+        char inChar = (char)stream.read();
         // add it to the inputString:
         inputString += inChar;
         // if the incoming character is a newline, set a flag
@@ -69,8 +69,8 @@ void tryToReadNextCmd() {
     
       // print the string when a newline arrives:
       if (stringComplete) {
-        handleJsonPackage(inputString.c_str(), Serial);
-        Serial.println();
+        handleJsonPackage(inputString.c_str(), stream);
+        stream.println();
         // clear the string:
         inputString = "";
         stringComplete = false;

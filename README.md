@@ -1,12 +1,19 @@
 # Arduino JSON RPC
 Arduino json communication library, for remote procedure calls, it is based on https://github.com/bblanchon/ArduinoJson
 
+Example of usage:
 
 ```
+//#include <Arduino.h> //it is required in cause of compilation under platform.io
 #include <ArduinoJsonRpc.h>
 
-CommandResult pingCmdHandler(const JsonObject& inParams, JsonObject& outParams) {
-  outParams["sum"] = (double)inParams["a"] + (double)inParams["b"];
+
+CommandResult echoCmdHandler(const JsonObject& inParams, JsonObject& outParams) {
+  //outParams["msg"] = inParams["msg"]; // or following 
+  for (auto kv : inParams) {
+    outParams[kv.key] = kv.value;
+  }
+
   return processed;
 }
 
@@ -15,11 +22,12 @@ void setup() {
   while (!Serial) {
     // wait serial port initialization
   };
-  attachCommandProcessor("add", &pingCmdHandler);
+  attachCommandProcessor("echo", &echoCmdHandler);
 }
 
 void loop() {
-  tryToReadNextCmd();
+  tryToReadNextCmd(Serial);
 }
+
 
 ```
